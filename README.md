@@ -6,6 +6,6 @@ The library is really basic, mostly using the Wire library. It is made just to p
 ### Note: This chip defaults to all pins HIGH on power on. This is expected since it's mostly designed as a LED driver chip, but good to note.
 
 
-Software is licensed under BSD 3 Clause: https://opensource.org/licenses/BSD-3-Clause
-Documentation is licensed under Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0): https://creativecommons.org/licenses/by-sa/2.0/
+Software is licensed under BSD 3 Clause: https://opensource.org/licenses/BSD-3-Clause   
+Documentation is licensed under Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0): https://creativecommons.org/licenses/by-sa/2.0/   
 All rights reserved by Blueprint Foundry.
