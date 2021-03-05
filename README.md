@@ -1,6 +1,6 @@
 # PI4IOE5V96248_Arduino_Library
 Arduino Library for PI4IOE5V96248
-This chip is an I2C multiplex chip, with 48 I/O pins configurable over I2C.
+This chip is an I2C IO expander chip, with 48 I/O pins configurable over I2C.
 The library is really basic, mostly using the Wire library. It is made just to provide some convinience functions for users.
 
 ### Note: This chip defaults to all pins HIGH on power on. This is expected since it's mostly designed as a LED driver chip, but good to note.
