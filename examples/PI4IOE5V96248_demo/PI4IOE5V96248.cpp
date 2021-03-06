@@ -11,12 +11,14 @@
 #include "Arduino.h"
 #include "PI4IOE5V96248.h"
 
+//init function, fills port value array with 0xFF
 PI4IOE5V96248::PI4IOE5V96248()
 {
   value[0] = 0xFF; //fill state array with HIGH on init, as this is state of chip on power on
   memcpy( ((char*)value) + sizeof(value[0]), value, sizeof(value) - sizeof(value[0]));
 }
 
+//communication check, simply checks if chip responds with Ack
 byte PI4IOE5V96248::begin(byte address)
 {
   // Store the received parameter into member variables
@@ -30,21 +32,31 @@ byte PI4IOE5V96248::begin(byte address)
   return 0;
 }
 
+//sets a single pin on the chip, requires port and pin number, and value to set
 void PI4IOE5V96248::writePin(byte port, byte pin, byte highLow)
 {
-  //only write if needed. Set sign value in array and send the array
+  //Set sign value in array and send the port hex value
   if (highLow == HIGH) value[port] |= 1UL << pin ; //set pin (set to 1 or HIGH)
   else value[port] &= ~(1UL << pin) ; //clear pin (set to 0 or LOW)
-  writeAll(value);
+  writePort(port, value[port]);
 }
 
+//Sets an entire port at once, usually the fastest way to set values for this chip
+//Note: Port outputs are changed as soon as write is done for each port.
 void PI4IOE5V96248::writePort(byte port, byte portValue)
 {
   //only write if needed. Set hex value in array and send the array
-  value[port] = portValue;
-  writeAll(value);
+  if (value[port] != portValue) {
+    value[port] = portValue;
+    Wire.beginTransmission(deviceAddress);
+    for (int i = 0; i <= port; i++) { //only write up to port number, no benefit writing more
+      Wire.write(value[i]);
+    }
+    Wire.endTransmission();
+  }
 }
 
+//sets all pins/ports on the chip
 void PI4IOE5V96248::writeAll(byte highLow[6])
 {
   Wire.beginTransmission(deviceAddress);
@@ -54,9 +66,19 @@ void PI4IOE5V96248::writeAll(byte highLow[6])
   Wire.endTransmission();
 }
 
+//Sets a specific pin high, reads value, resets pin to original state,
+// and returns read value
 byte PI4IOE5V96248::readPin(byte port, byte pin) {
   //store pin mode, set to read (if needed), read pin, reset to stored mode (if needed)
 }
 
+//Sets all pins to high, and then reads all values, reset pins to original state,
+// and returns read values
 byte * PI4IOE5V96248::readAll() {
+}
+
+//returns private value variable, which tracks what the chip is set to.
+//Does not actually read from the chip
+byte * PI4IOE5V96248::returnValue() {
+  return value;
 }

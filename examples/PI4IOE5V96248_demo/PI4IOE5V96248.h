@@ -27,6 +27,7 @@ class PI4IOE5V96248
     void writeAll(byte highLow[6]);
     byte readPin(byte port, byte pin);
     byte * readAll();
+    byte * returnValue();
 
 }; //PI4IOE5V96248 class
 #endif  // PI4IOE5V96248_H

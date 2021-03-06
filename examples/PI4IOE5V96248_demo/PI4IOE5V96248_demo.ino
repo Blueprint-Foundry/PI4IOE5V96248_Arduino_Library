@@ -15,6 +15,15 @@
 PI4IOE5V96248 io_exp; // Object for communicating with the io expander
 const byte PI4IOE5V96248_ADDRESS = 0x23;  // Example PI4IOE5V96248 I2C address, depends on setting for AD0, AD1, AD2
 
+//Example helper function to print out chip stored pin states
+void printHex(uint8_t num) {
+  char hexCar[2];
+
+  sprintf(hexCar, "%02X", num);
+  Serial.print(" 0x");
+  Serial.print(hexCar);
+}
+
 void setup() {
   Serial.begin(115200);
   Wire.begin(25, 23); //Join I2C bus, set SDA and SCL pins respectively (tested on ESP32, remove pins if using another chip)
@@ -30,6 +39,11 @@ void setup() {
     while (1); //loop forever
   }
   Serial.println("PI4IOE5V96248 found! :)");
+  Serial.print("Default pin values: ");
+  byte * stored = io_exp.returnValue();
+  for (int i = 0; i < sizeof(stored); i++) { //example printing initialized 0xFF values
+    printHex(stored[i]);
+  }
 }
 
 void loop() {
@@ -38,5 +52,5 @@ void loop() {
   delay(500);
   io_exp.writePin(0, 7, HIGH); // set a single pin on port 0 (pin 5 numerically on the chip)
   delay(500);
-  io_exp.writePort(1,0x00); //set entire port 1 to 0 (pins 6 - 13 numerically on the chip)
+  io_exp.writePort(1, 0x00); //set entire port 1 to 0 (pins 6 - 13 numerically on the chip)
 }
