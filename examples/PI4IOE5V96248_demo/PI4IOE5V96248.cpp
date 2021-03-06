@@ -13,7 +13,7 @@
 
 PI4IOE5V96248::PI4IOE5V96248()
 {
-  value[0] = HIGH; //fill state array with HIGH on init, as this is state of chip on power on
+  value[0] = 0xFF; //fill state array with HIGH on init, as this is state of chip on power on
   memcpy( ((char*)value) + sizeof(value[0]), value, sizeof(value) - sizeof(value[0]));
 }
 
@@ -28,4 +28,35 @@ byte PI4IOE5V96248::begin(byte address)
   }
 
   return 0;
+}
+
+void PI4IOE5V96248::writePin(byte port, byte pin, byte highLow)
+{
+  //only write if needed. Set sign value in array and send the array
+  if (highLow == HIGH) value[port] |= 1UL << pin ; //set pin (set to 1 or HIGH)
+  else value[port] &= ~(1UL << pin) ; //clear pin (set to 0 or LOW)
+  writeAll(value);
+}
+
+void PI4IOE5V96248::writePort(byte port, byte portValue)
+{
+  //only write if needed. Set hex value in array and send the array
+  value[port] = portValue;
+  writeAll(value);
+}
+
+void PI4IOE5V96248::writeAll(byte highLow[6])
+{
+  Wire.beginTransmission(deviceAddress);
+  for (int i = 0; i < 6; i++) {
+    Wire.write(highLow[i]);
+  }
+  Wire.endTransmission();
+}
+
+byte PI4IOE5V96248::readPin(byte port, byte pin) {
+  //store pin mode, set to read (if needed), read pin, reset to stored mode (if needed)
+}
+
+byte * PI4IOE5V96248::readAll() {
 }
