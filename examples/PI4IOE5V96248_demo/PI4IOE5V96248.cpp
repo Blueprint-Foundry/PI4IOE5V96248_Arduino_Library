@@ -26,9 +26,8 @@ byte PI4IOE5V96248::begin(byte address)
 
   Wire.beginTransmission(address);
   if (!Wire.endTransmission()) { // default value to verify communication, a 0 means we got an ack
-    return 1; //if successful
+    return 1; //it worked
   }
-
   return 0;
 }
 
@@ -45,15 +44,13 @@ void PI4IOE5V96248::writePin(byte port, byte pin, byte highLow)
 //Note: Port outputs are changed as soon as write is done for each port.
 void PI4IOE5V96248::writePort(byte port, byte portValue)
 {
-  //only write if needed. Set hex value in array and send the array
-  if (value[port] != portValue) {
-    value[port] = portValue;
-    Wire.beginTransmission(deviceAddress);
-    for (int i = 0; i <= port; i++) { //only write up to port number, no benefit writing more
-      Wire.write(value[i]);
-    }
-    Wire.endTransmission();
+  //Set hex value in array and send the array
+  value[port] = portValue;
+  Wire.beginTransmission(deviceAddress);
+  for (int i = 0; i <= port; i++) { //only write up to port number, no benefit writing more
+    Wire.write(value[i]);
   }
+  Wire.endTransmission();
 }
 
 //sets all pins/ports on the chip
@@ -61,7 +58,8 @@ void PI4IOE5V96248::writeAll(byte highLow[6])
 {
   Wire.beginTransmission(deviceAddress);
   for (int i = 0; i < 6; i++) {
-    Wire.write(highLow[i]);
+    value[i] = highLow[i]; //copy to private variable
+    Wire.write(value[i]); //write to chip
   }
   Wire.endTransmission();
 }

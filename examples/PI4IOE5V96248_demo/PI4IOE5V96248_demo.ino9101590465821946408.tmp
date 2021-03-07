@@ -30,37 +30,24 @@ void setup() {
     while (1); //loop forever
   }
   Serial.println("PI4IOE5V96248 found! :)");
-}
-
-//Convinience function to print values
-void printout() {
+  Serial.print("Default pin values: ");
   byte * stored = io_exp.returnValue();
-  for (int i = 0; i < 6; i++) { //example printing initialized 0xFF(all on) values
-    Serial.print("  [");
-    Serial.print(i);
-    Serial.print("]: ");
-    Serial.print(stored[i], HEX);
+  for (int i = 0; i < 6; i++) { //example printing initialized 0xFF values
+    Serial.print(" 0x");
+    Serial.print(stored[i],HEX);
   }
   Serial.println();
 }
 
-byte test[6] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
 void loop() {
-  printout();
-  delay(5000);
-  io_exp.writePin(0, 7, LOW); // set a single pin on port 0 (pin 5 numerically on the chip)
-  printout();
-  delay(5000);
-  io_exp.writePort(1, 0x00);
-  printout();
-  delay(5000);
-  io_exp.writeAll(test);
-  printout();
+  delay(500);
+  io_exp.writePin(0, 7, LOW);
+  io_exp.writePin(1, 0, LOW);
+  io_exp.writePin(5, 0, LOW);
+  delay(500);
+  io_exp.writePin(0, 7, HIGH); // set a single pin on port 0 (pin 5 numerically on the chip)
+  io_exp.writePin(1, 0, HIGH);
+  io_exp.writePin(5, 0, LOW);
+  delay(500);
+  io_exp.writePort(1, 0x00); //set entire port 1 to 0 (pins 6 - 13 numerically on the chip)
 }
-
-//delay(500);
-
-//io_exp.writePort(2, 0xAA);
-//io_exp.writePort(0, 0x00);
-//io_exp.writeAll(test1);
-//io_exp.writeAll(test2);

@@ -1,3 +1,21 @@
 #########################################
 # Syntax Coloring Map For PI4IOE5V96248
 #########################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+PI4IOE5V96248	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+writePin	KEYWORD2
+writePort	KEYWORD2
+writeAll	KEYWORD2
+readPin		KEYWORD2
+readAll		KEYWORD2
+returnValue	KEYWORD2
