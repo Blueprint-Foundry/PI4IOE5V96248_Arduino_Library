@@ -47,20 +47,17 @@ void printout() {
 byte test[6] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
 void loop() {
   printout();
-  delay(5000);
+  delay(3000);
   io_exp.writePin(0, 7, LOW); // set a single pin on port 0 (pin 5 numerically on the chip)
   printout();
-  delay(5000);
-  io_exp.writePort(1, 0x00);
+  delay(3000);
+  io_exp.writePort(1, 0x00); //set an entire port to a hex byte value
   printout();
-  delay(5000);
-  io_exp.writeAll(test);
+  delay(3000);
+  io_exp.writeAll(test); //set the entire chip to an array of hex byte values
   printout();
+  delay(3000);
+  Serial.println (io_exp.readPort(0), HEX); //read from port 0, will return whatever the pins were set to
+  delay(3000);
+  Serial.println (io_exp.readPin(0, 1), HEX); //read from port 0, pin 1, will return whatever the pins were set to
 }
-
-//delay(500);
-
-//io_exp.writePort(2, 0xAA);
-//io_exp.writePort(0, 0x00);
-//io_exp.writeAll(test1);
-//io_exp.writeAll(test2);

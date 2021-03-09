@@ -58,25 +58,38 @@ void PI4IOE5V96248::writeAll(byte highLow[6])
 {
   Wire.beginTransmission(deviceAddress);
   for (int i = 0; i < 6; i++) {
-    value[i] = highLow[i]; //copy to private variable
+    value[i] = highLow[i]; //copy to private variable for tracking
     Wire.write(value[i]); //write to chip
   }
   Wire.endTransmission();
 }
 
-//Sets a specific pin high, reads value, resets pin to original state,
-// and returns read value
+// reads pin value, and returns pin read value
 byte PI4IOE5V96248::readPin(byte port, byte pin) {
-  //store pin mode, set to read (if needed), read pin, reset to stored mode (if needed)
+  return bitRead(readPort(port), pin);
 }
 
-//Sets all pins to high, and then reads all values, reset pins to original state,
-// and returns read values
+//Sets a specific port, reads values
+byte PI4IOE5V96248::readPort(byte port) {
+  byte * retVal = readAll();
+  return retVal[port];
+}
+
+// read all values
 byte * PI4IOE5V96248::readAll() {
+  byte count = 0;
+  Wire.requestFrom(deviceAddress, 6);
+  while (Wire.available())
+  {
+    read_io[count] = Wire.read();
+    count++;
+  }
+  Wire.endTransmission();
+  return read_io;
 }
 
 //returns private value variable, which tracks what the chip is set to.
-//Does not actually read from the chip
+//Does not actually read from the chip, faster than doing a readAll
 byte * PI4IOE5V96248::returnValue() {
   return value;
 }

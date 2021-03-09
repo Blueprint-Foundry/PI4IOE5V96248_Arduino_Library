@@ -18,6 +18,7 @@ class PI4IOE5V96248
   private:  // These private functions are not available to Arduino sketches.
     byte deviceAddress; // I2C Address of PI4IOE5V96248
     byte value[6]; // tracking pin values for chip, expressed as hex values per port (6 ports total)
+    byte read_io[6];
 
   public:  // These public functions are available to Arduino sketches.
     PI4IOE5V96248();
@@ -26,6 +27,7 @@ class PI4IOE5V96248
     void writePort(byte port, byte portValue);
     void writeAll(byte highLow[6]);
     byte readPin(byte port, byte pin);
+    byte readPort(byte port);
     byte * readAll();
     byte * returnValue();
 
