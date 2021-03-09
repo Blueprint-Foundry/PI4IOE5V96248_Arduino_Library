@@ -7,6 +7,10 @@ The library is really basic, mostly using the Wire library. It is made just to p
 The other quirk is that the chip seems to just retrun the already set pin values for read. This makes input from this chip not usefull.
 Hence, assume this chip only does output :/
 
+## Installation:
+Download the .zip file from Github, in Arduino go to Sketch -> Include Library -> Add .ZIP Library... and select the downloaded .zip file.
+The library example can then be opened under File -> Examples -> PI4IOE5V96248 IO Expander
+
 Software is licensed under BSD 3 Clause: https://opensource.org/licenses/BSD-3-Clause   
 Documentation is licensed under Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0): https://creativecommons.org/licenses/by-sa/2.0/   
 All rights reserved by Blueprint Foundry.

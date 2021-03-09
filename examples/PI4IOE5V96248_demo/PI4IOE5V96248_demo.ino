@@ -10,7 +10,7 @@
 
 */
 #include <Wire.h>
-#include "PI4IOE5V96248.h"
+#include <PI4IOE5V96248.h>
 
 PI4IOE5V96248 io_exp; // Object for communicating with the io expander
 const byte PI4IOE5V96248_ADDRESS = 0x23;  // Example PI4IOE5V96248 I2C address, depends on setting for AD0, AD1, AD2
